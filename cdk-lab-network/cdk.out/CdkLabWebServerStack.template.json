@@ -1,0 +1,715 @@
+{
+ "Resources": {
+  "InstanceSSMCBFA3CF0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ec2.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSSMManagedInstanceCore"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/InstanceSSM/Resource"
+   }
+  },
+  "InstanceSSMDefaultPolicy6E4EFE93": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+           },
+           "/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+           }
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "InstanceSSMDefaultPolicy6E4EFE93",
+    "Roles": [
+     {
+      "Ref": "InstanceSSMCBFA3CF0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/InstanceSSM/DefaultPolicy/Resource"
+   }
+  },
+  "ec2SG413770A2": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security_group_for_web_servers",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Open port 80 from anywhere",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     }
+    ],
+    "VpcId": {
+     "Fn::ImportValue": "CdkLabNetworkStack:ExportsOutputRefcdklabvpc77E9E1125CA8C293"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/ec2_SG/Resource"
+   }
+  },
+  "cdklabwebinstance1InstanceProfileD425DE5C": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     {
+      "Ref": "InstanceSSMCBFA3CF0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/cdk_lab_web_instance_1/InstanceProfile"
+   }
+  },
+  "cdklabwebinstance1C11AF3D5": {
+   "Type": "AWS::EC2::Instance",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "IamInstanceProfile": {
+     "Ref": "cdklabwebinstance1InstanceProfileD425DE5C"
+    },
+    "ImageId": {
+     "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+    },
+    "InstanceType": "t2.micro",
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "ec2SG413770A2",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": {
+     "Fn::ImportValue": "CdkLabNetworkStack:ExportsOutputRefcdklabvpcPublicSubnet1SubnetDBF456132BEC9177"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "CdkLabWebServerStack/cdk_lab_web_instance_1"
+     }
+    ],
+    "UserData": {
+     "Fn::Base64": {
+      "Fn::Join": [
+       "",
+       [
+        "#!/bin/bash\nmkdir -p $(dirname '/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh')\naws s3 cp 's3://",
+        {
+         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+        },
+        "/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh' '/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh'\nset -e\nchmod +x '/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh'\n'/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh'"
+       ]
+      ]
+     }
+    }
+   },
+   "DependsOn": [
+    "InstanceSSMDefaultPolicy6E4EFE93",
+    "InstanceSSMCBFA3CF0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/cdk_lab_web_instance_1/Resource"
+   }
+  },
+  "cdklabwebinstance2InstanceProfileE105E38B": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     {
+      "Ref": "InstanceSSMCBFA3CF0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/cdk_lab_web_instance_2/InstanceProfile"
+   }
+  },
+  "cdklabwebinstance25B4DBF53": {
+   "Type": "AWS::EC2::Instance",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "IamInstanceProfile": {
+     "Ref": "cdklabwebinstance2InstanceProfileE105E38B"
+    },
+    "ImageId": {
+     "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+    },
+    "InstanceType": "t2.micro",
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "ec2SG413770A2",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": {
+     "Fn::ImportValue": "CdkLabNetworkStack:ExportsOutputRefcdklabvpcPublicSubnet2Subnet698D29EF0F814D93"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "CdkLabWebServerStack/cdk_lab_web_instance_2"
+     }
+    ],
+    "UserData": {
+     "Fn::Base64": {
+      "Fn::Join": [
+       "",
+       [
+        "#!/bin/bash\nmkdir -p $(dirname '/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh')\naws s3 cp 's3://",
+        {
+         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+        },
+        "/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh' '/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh'\nset -e\nchmod +x '/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh'\n'/tmp/4df6baac58f48469b5c43d908453b3089b21085c7dbd6f9234c04418c184d74c.sh'"
+       ]
+      ]
+     }
+    }
+   },
+   "DependsOn": [
+    "InstanceSSMDefaultPolicy6E4EFE93",
+    "InstanceSSMCBFA3CF0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/cdk_lab_web_instance_2/Resource"
+   }
+  },
+  "RDSSG20E6673B": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "RDS_security_group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Fn::ImportValue": "CdkLabNetworkStack:ExportsOutputRefcdklabvpc77E9E1125CA8C293"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/RDS_SG/Resource"
+   }
+  },
+  "RDSSGfromCdkLabWebServerStackec2SG238EDB5B33067A63276C": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Open_port_3306_to_only_EC2s_security_group",
+    "FromPort": 3306,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "RDSSG20E6673B",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ec2SG413770A2",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3306
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/RDS_SG/from CdkLabWebServerStackec2SG238EDB5B:3306"
+   }
+  },
+  "PrivateSubnetGroup": {
+   "Type": "AWS::RDS::DBSubnetGroup",
+   "Properties": {
+    "DBSubnetGroupDescription": "Contains_all_private_subnets",
+    "SubnetIds": [
+     {
+      "Fn::ImportValue": "CdkLabNetworkStack:ExportsOutputRefcdklabvpcPrivateSubnet1Subnet1FC84A13826F31BE"
+     },
+     {
+      "Fn::ImportValue": "CdkLabNetworkStack:ExportsOutputRefcdklabvpcPrivateSubnet2Subnet10A12D4A5CB7B2E1"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/PrivateSubnetGroup/Default"
+   }
+  },
+  "CdkLabWebServerStackMySQLinstanceSecretCCFA82D13fdaad7efa858a3daf9490cf0a702aeb": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Generated by the CDK for stack: ",
+       {
+        "Ref": "AWS::StackName"
+       }
+      ]
+     ]
+    },
+    "GenerateSecretString": {
+     "ExcludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\",
+     "GenerateStringKey": "password",
+     "PasswordLength": 30,
+     "SecretStringTemplate": "{\"username\":\"DB_admin\"}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/MySQL_instance/Secret/Resource"
+   }
+  },
+  "MySQLinstanceSecretAttachmentBDA5031E": {
+   "Type": "AWS::SecretsManager::SecretTargetAttachment",
+   "Properties": {
+    "SecretId": {
+     "Ref": "CdkLabWebServerStackMySQLinstanceSecretCCFA82D13fdaad7efa858a3daf9490cf0a702aeb"
+    },
+    "TargetId": {
+     "Ref": "MySQLinstance33AAB0E8"
+    },
+    "TargetType": "AWS::RDS::DBInstance"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/MySQL_instance/Secret/Attachment/Resource"
+   }
+  },
+  "MySQLinstance33AAB0E8": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "AllocatedStorage": "20",
+    "CopyTagsToSnapshot": true,
+    "DBInstanceClass": "db.t4g.micro",
+    "DBSubnetGroupName": {
+     "Ref": "PrivateSubnetGroup"
+    },
+    "DeletionProtection": false,
+    "Engine": "mysql",
+    "EngineVersion": "8.0",
+    "MasterUserPassword": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "CdkLabWebServerStackMySQLinstanceSecretCCFA82D13fdaad7efa858a3daf9490cf0a702aeb"
+       },
+       ":SecretString:password::}}"
+      ]
+     ]
+    },
+    "MasterUsername": "DB_admin",
+    "Port": "3306",
+    "PubliclyAccessible": false,
+    "StorageType": "gp2",
+    "VPCSecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "RDSSG20E6673B",
+       "GroupId"
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/MySQL_instance/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WQwW6DMAyGn6X3kIkiVdqxtNLUG4LdKxNcmgFJFTuqUJR3nwCVse30x78/27H3Mj2kMt3BkxLVdEmvaxkqBtUJeNI1aBhkKG2P4nQzsxa212qcwp/XxRCDUVg4e9M9RoFqL0OFyjvN44ez/jFhv41X0bbBP+piWodEUVB2BSJkksdJBGUy96pDzoFQuIZkqHxtkNdp53xrnIGhBsJ10suoUDnkpeCVjIJmlwYw0KKTYfnXBC7yCa5FPjKDug9oWKzA30yMokSy3i3bFeBgQEYn5j0qhlabdr7uhjpZ02jW1kRRjHy35i2T7zI97L5I68R5w3pAWS76DVORhjbEAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkLabWebServerStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Parameters": {
+  "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
+   "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+   "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,416 @@
+{
+  "version": "38.0.1",
+  "artifacts": {
+    "CdkLabNetworkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "CdkLabNetworkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "CdkLabNetworkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "CdkLabNetworkStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "notificationArns": [],
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/623d3d52cc10ed935abc5bbe18022dcf10b3b35cc44843067ed4ab39a22f9150.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "CdkLabNetworkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "CdkLabNetworkStack.assets"
+      ],
+      "metadata": {
+        "/CdkLabNetworkStack/cdk_lab_vpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpc77E9E112"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet1SubnetDBF45613"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet1RouteTableA831146D"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet1RouteTableAssociation46AE3C56"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet1DefaultRoute380D2D6F"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet1EIP55BD4DAB"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet1NATGateway9338852D"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet2Subnet698D29EF"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet2RouteTable13427D42"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet2RouteTableAssociation5893651E"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet2DefaultRoute68017EEB"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet2EIPAF6E2B97"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPublicSubnet2NATGateway092223DD"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet1Subnet1FC84A13"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet1RouteTable258F19C4"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet1RouteTableAssociation5ACFC278"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet1DefaultRoute46AE70D8"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet2Subnet10A12D4A"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet2RouteTable442F01F3"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet2RouteTableAssociationCE155D56"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcPrivateSubnet2DefaultRouteBEE0115A"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcIGWA1A5230A"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcVPCGWD050B47C"
+          }
+        ],
+        "/CdkLabNetworkStack/cdk_lab_vpc/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabvpcRestrictDefaultSecurityGroupCustomResource7FCDF760"
+          }
+        ],
+        "/CdkLabNetworkStack/LatestNodeRuntimeMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LatestNodeRuntimeMap"
+          }
+        ],
+        "/CdkLabNetworkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/CdkLabNetworkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/CdkLabNetworkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/CdkLabNetworkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/CdkLabNetworkStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/CdkLabNetworkStack/Exports/Output{\"Ref\":\"cdklabvpc77E9E112\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefcdklabvpc77E9E1125CA8C293"
+          }
+        ],
+        "/CdkLabNetworkStack/Exports/Output{\"Ref\":\"cdklabvpcPublicSubnet1SubnetDBF45613\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefcdklabvpcPublicSubnet1SubnetDBF456132BEC9177"
+          }
+        ],
+        "/CdkLabNetworkStack/Exports/Output{\"Ref\":\"cdklabvpcPublicSubnet2Subnet698D29EF\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefcdklabvpcPublicSubnet2Subnet698D29EF0F814D93"
+          }
+        ],
+        "/CdkLabNetworkStack/Exports/Output{\"Ref\":\"cdklabvpcPrivateSubnet1Subnet1FC84A13\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefcdklabvpcPrivateSubnet1Subnet1FC84A13826F31BE"
+          }
+        ],
+        "/CdkLabNetworkStack/Exports/Output{\"Ref\":\"cdklabvpcPrivateSubnet2Subnet10A12D4A\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefcdklabvpcPrivateSubnet2Subnet10A12D4A5CB7B2E1"
+          }
+        ],
+        "/CdkLabNetworkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/CdkLabNetworkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "CdkLabNetworkStack"
+    },
+    "CdkLabWebServerStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "CdkLabWebServerStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "CdkLabWebServerStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "CdkLabWebServerStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "notificationArns": [],
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/7d236cfbeecb5da4b3f6c23e0a0e1a9a1968a0a07b159323b60694aa4dbb70f4.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "CdkLabWebServerStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "CdkLabNetworkStack",
+        "CdkLabWebServerStack.assets"
+      ],
+      "metadata": {
+        "/CdkLabWebServerStack/InstanceSSM/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceSSMCBFA3CF0"
+          }
+        ],
+        "/CdkLabWebServerStack/InstanceSSM/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceSSMDefaultPolicy6E4EFE93"
+          }
+        ],
+        "/CdkLabWebServerStack/ec2_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2SG413770A2"
+          }
+        ],
+        "/CdkLabWebServerStack/cdk_lab_web_instance_1/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabwebinstance1InstanceProfileD425DE5C"
+          }
+        ],
+        "/CdkLabWebServerStack/cdk_lab_web_instance_1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabwebinstance1C11AF3D5"
+          }
+        ],
+        "/CdkLabWebServerStack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/CdkLabWebServerStack/cdk_lab_web_instance_2/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabwebinstance2InstanceProfileE105E38B"
+          }
+        ],
+        "/CdkLabWebServerStack/cdk_lab_web_instance_2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdklabwebinstance25B4DBF53"
+          }
+        ],
+        "/CdkLabWebServerStack/RDS_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RDSSG20E6673B"
+          }
+        ],
+        "/CdkLabWebServerStack/RDS_SG/from CdkLabWebServerStackec2SG238EDB5B:3306": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RDSSGfromCdkLabWebServerStackec2SG238EDB5B33067A63276C"
+          }
+        ],
+        "/CdkLabWebServerStack/PrivateSubnetGroup/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PrivateSubnetGroup"
+          }
+        ],
+        "/CdkLabWebServerStack/MySQL_instance/Secret/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CdkLabWebServerStackMySQLinstanceSecretCCFA82D13fdaad7efa858a3daf9490cf0a702aeb"
+          }
+        ],
+        "/CdkLabWebServerStack/MySQL_instance/Secret/Attachment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MySQLinstanceSecretAttachmentBDA5031E"
+          }
+        ],
+        "/CdkLabWebServerStack/MySQL_instance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MySQLinstance33AAB0E8"
+          }
+        ],
+        "/CdkLabWebServerStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/CdkLabWebServerStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/CdkLabWebServerStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/CdkLabWebServerStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "CdkLabWebServerStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
